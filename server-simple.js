@@ -59,43 +59,11 @@ START THE CONVERSATION:
 };
 
 // ============================================
-// 🎤 ElevenLabs - יצירת Agent שיחה
+// 🎤 ElevenLabs - Agent ID (קבוע)
 // ============================================
-
-async function createElevenLabsAgent(topic) {
-    const topicData = conversationTopics[topic];
-
-    try {
-        const response = await axios.post(
-            'https://api.elevenlabs.io/v1/convai/agents',
-            {
-                name: `English Tutor - ${topicData.name}`,
-                prompt: {
-                    prompt: topicData.systemPrompt,
-                },
-                voice: {
-                    voice_id: "21m00Tcm4TlvDq8ikWAM",
-                },
-                conversation_config: {
-                    max_duration_seconds: 900,
-                },
-                language: "en",
-            },
-            {
-                headers: {
-                    'xi-api-key': process.env.ELEVENLABS_API_KEY,
-                    'Content-Type': 'application/json',
-                },
-                httpsAgent: httpsAgent
-            }
-        );
-
-        return response.data.agent_id;
-    } catch (error) {
-        console.error('Error creating ElevenLabs agent:', error.response?.data || error.message);
-        throw error;
-    }
-}
+// צריך ליצור agent ידנית ב-ElevenLabs dashboard
+// ולהעתיק את ה-agent_id לכאן
+const ELEVENLABS_AGENT_ID = process.env.ELEVENLABS_AGENT_ID || 'your-agent-id-here';
 
 // ============================================
 // 📞 TWILIO - טיפול בשיחות נכנסות
@@ -116,15 +84,11 @@ app.post('/incoming-call', async (req, res) => {
             status: 'started'
         };
 
-        // יוצר agent ב-ElevenLabs
-        const agentId = await createElevenLabsAgent('hobbies');
-        calls[callSid].agentId = agentId;
-
         // מחזיר ל-Twilio הוראות
         const twiml = new twilio.twiml.VoiceResponse();
         const connect = twiml.connect();
         connect.stream({
-            url: `wss://api.elevenlabs.io/v1/convai/conversation?agent_id=${agentId}`,
+            url: `wss://api.elevenlabs.io/v1/convai/conversation?agent_id=${ELEVENLABS_AGENT_ID}`,
             parameters: {
                 'api-key': process.env.ELEVENLABS_API_KEY
             }

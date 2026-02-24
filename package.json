@@ -5,8 +5,8 @@
     "main": "server.js",
     "type": "module",
     "scripts": {
-        "start": "node server-simple.js",
-        "dev": "node --watch server-simple.js"
+        "start": "node server-twilio-simple.js",
+        "dev": "node --watch server-twilio-simple.js"
     },
     "keywords": [
         "ai",

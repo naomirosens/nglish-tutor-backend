@@ -1,0 +1,84 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.register-card {
+    max-width: 500px;
+    width: 100%;
+    padding: 20px;
+    direction: rtl;
+
+    mat-card-header {
+        text-align: center;
+        margin-bottom: 30px;
+
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+            color: #333;
+        }
+
+        p {
+            color: #666;
+            margin: 10px 0 0 0;
+        }
+    }
+}
+
+.full-width {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #f44336;
+    background: #ffebee;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+
+    mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+button[type="submit"] {
+    height: 48px;
+    font-size: 16px;
+    margin-top: 10px;
+
+    mat-spinner {
+        display: inline-block;
+        margin: 0 auto;
+    }
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 20px;
+
+    p {
+        color: #666;
+        margin: 0;
+    }
+
+    a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

@@ -1,0 +1,101 @@
+<div class="dashboard-container" dir="rtl">
+    <div class="header">
+        <h1>דשבורד מורה 👩‍🏫</h1>
+        <p>ניהול ומעקב אחר התלמידות שלך</p>
+    </div>
+
+    <!-- הוספת תלמידה -->
+    <mat-card class="add-student-card">
+        <mat-card-content>
+            <h3>הוספת תלמידה חדשה</h3>
+            <div class="add-student-form">
+                <mat-form-field appearance="outline" class="email-field">
+                    <mat-label>אימייל התלמידה</mat-label>
+                    <input matInput type="email" [(ngModel)]="newStudentEmail" placeholder="student@example.com"
+                        (keyup.enter)="addStudent()">
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" (click)="addStudent()"
+                    [disabled]="addingStudent || !newStudentEmail">
+                    <mat-spinner diameter="20" *ngIf="addingStudent"></mat-spinner>
+                    <span *ngIf="!addingStudent">הוסף תלמידה</span>
+                </button>
+            </div>
+
+            <div class="message success" *ngIf="success">
+                <mat-icon>check_circle</mat-icon>
+                {{ success }}
+            </div>
+
+            <div class="message error" *ngIf="error">
+                <mat-icon>error</mat-icon>
+                {{ error }}
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- רשימת תלמידות -->
+    <mat-card class="students-card">
+        <mat-card-header>
+            <mat-card-title>התלמידות שלי ({{ students.length }})</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="loading-container" *ngIf="loading">
+                <mat-spinner></mat-spinner>
+            </div>
+
+            <div class="no-students" *ngIf="!loading && students.length === 0">
+                <mat-icon>school</mat-icon>
+                <p>עדיין אין תלמידות. הוסיפי את התלמידה הראשונה שלך!</p>
+            </div>
+
+            <table mat-table [dataSource]="students" *ngIf="!loading && students.length > 0" class="students-table">
+                <!-- שם -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>שם</th>
+                    <td mat-cell *matCellDef="let student">{{ student.full_name }}</td>
+                </ng-container>
+
+                <!-- אימייל -->
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>אימייל</th>
+                    <td mat-cell *matCellDef="let student">{{ student.email }}</td>
+                </ng-container>
+
+                <!-- טלפון -->
+                <ng-container matColumnDef="phone">
+                    <th mat-header-cell *matHeaderCellDef>טלפון</th>
+                    <td mat-cell *matCellDef="let student">{{ student.phone || '-' }}</td>
+                </ng-container>
+
+                <!-- מספר שיחות -->
+                <ng-container matColumnDef="totalCalls">
+                    <th mat-header-cell *matHeaderCellDef>שיחות</th>
+                    <td mat-cell *matCellDef="let student">
+                        <mat-chip>{{ student.total_calls }}</mat-chip>
+                    </td>
+                </ng-container>
+
+                <!-- שיחה אחרונה -->
+                <ng-container matColumnDef="lastCall">
+                    <th mat-header-cell *matHeaderCellDef>שיחה אחרונה</th>
+                    <td mat-cell *matCellDef="let student">{{ formatDate(student.last_call_date) }}</td>
+                </ng-container>
+
+                <!-- פעולות -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>פעולות</th>
+                    <td mat-cell *matCellDef="let student">
+                        <button mat-icon-button color="primary" (click)="viewStudent(student)"
+                            matTooltip="צפייה בפרטים">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="student-row"></tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+</div>

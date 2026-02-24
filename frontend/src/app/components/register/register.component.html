@@ -1,0 +1,75 @@
+<div class="register-container">
+    <mat-card class="register-card">
+        <mat-card-header>
+            <mat-card-title>
+                <h1>🎓 English AI Tutor</h1>
+                <p>הרשמה למערכת</p>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>שם מלא</mat-label>
+                    <input matInput formControlName="fullName" placeholder="שם מלא">
+                    <mat-error *ngIf="registerForm.get('fullName')?.hasError('required')">
+                        שם מלא הוא שדה חובה
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>אימייל</mat-label>
+                    <input matInput type="email" formControlName="email" placeholder="your@email.com">
+                    <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+                        אימייל הוא שדה חובה
+                    </mat-error>
+                    <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+                        אימייל לא תקין
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>סיסמה</mat-label>
+                    <input matInput type="password" formControlName="password" placeholder="••••••">
+                    <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+                        סיסמה היא שדה חובה
+                    </mat-error>
+                    <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+                        סיסמה חייבת להכיל לפחות 6 תווים
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>טלפון</mat-label>
+                    <input matInput type="tel" formControlName="phone" placeholder="+972501234567">
+                    <mat-error *ngIf="registerForm.get('phone')?.hasError('required')">
+                        טלפון הוא שדה חובה
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>תפקיד</mat-label>
+                    <select matNativeControl formControlName="role">
+                        <option value="student">תלמידה</option>
+                        <option value="teacher">מורה</option>
+                    </select>
+                </mat-form-field>
+
+                <div class="error-message" *ngIf="error">
+                    <mat-icon>error</mat-icon>
+                    {{ error }}
+                </div>
+
+                <button mat-raised-button color="primary" type="submit" [disabled]="loading || registerForm.invalid"
+                    class="full-width">
+                    <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+                    <span *ngIf="!loading">הירשם</span>
+                </button>
+
+                <div class="login-link">
+                    <p>כבר יש לך חשבון? <a routerLink="/login">התחבר כאן</a></p>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

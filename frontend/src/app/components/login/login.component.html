@@ -1,0 +1,51 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>
+        <h1>🎓 English AI Tutor</h1>
+        <p>התחברות למערכת</p>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>אימייל</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="your@email.com">
+          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+            אימייל הוא שדה חובה
+          </mat-error>
+          <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+            אימייל לא תקין
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>סיסמה</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="••••••">
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            סיסמה היא שדה חובה
+          </mat-error>
+          <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+            סיסמה חייבת להכיל לפחות 6 תווים
+          </mat-error>
+        </mat-form-field>
+
+        <div class="error-message" *ngIf="error">
+          <mat-icon>error</mat-icon>
+          {{ error }}
+        </div>
+
+        <button mat-raised-button color="primary" type="submit" 
+                [disabled]="loading || loginForm.invalid" class="full-width">
+          <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+          <span *ngIf="!loading">התחבר</span>
+        </button>
+
+        <div class="register-link">
+          <p>עדיין אין לך חשבון? <a routerLink="/register">הירשם כאן</a></p>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
